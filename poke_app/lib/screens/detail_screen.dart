@@ -16,18 +16,28 @@ class DetailScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final pokemon = snapshot.data!;
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Hero( // ✅ requisito Hero
-                    tag: pokemon.name,
-                    child: Image.network(pokemon.image, height: 200),
-                  ),
-                  const SizedBox(height: 20),
-                  Text("Altura: ${pokemon.height}"),
-                  Text("Peso: ${pokemon.weight}"),
-                ],
+            return SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Hero( // ✅ requisito Hero
+                      tag: pokemon.name,
+                      child: SizedBox(width: 300, child: Image.network(pokemon.image, fit: BoxFit.contain,)),
+                    ),
+                    const SizedBox(height: 20),
+                    Text("Altura: ${pokemon.height}",
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                    ),
+                    Text("Peso: ${pokemon.weight}",
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                    ),
+                  ],
+                ),
               ),
             );
           } else if (snapshot.hasError) {

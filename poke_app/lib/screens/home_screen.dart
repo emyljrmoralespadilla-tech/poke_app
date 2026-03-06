@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: snapshot.data!.map((name) {
                   return ListTile(
-                    title: Text(name.toUpperCase()),
+                    title: Text(name.toUpperCase(), style: const TextStyle(fontSize: 30)),
                     onTap: () {
                       Navigator.push( // ✅ redirección
                         context,
