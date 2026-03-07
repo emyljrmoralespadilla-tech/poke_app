@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import 'detail_screen.dart';
@@ -13,11 +14,19 @@ class _HomeScreenState extends State<HomeScreen> {
   late Future<List<String>> pokemonList;
   late TextEditingController _searchController;
   String _searchQuery = '';
+  String? featuredPokemon;
 
   @override
   void initState() {
     super.initState();
     pokemonList = ApiService().fetchPokemonList();
+    pokemonList.then((list) {
+      if (list.isNotEmpty) {
+        setState(() {
+          featuredPokemon = list[Random().nextInt(list.length)];
+        });
+      }
+    });
     _searchController = TextEditingController();
   }
 
@@ -33,6 +42,21 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(title: const Text("Pokédex")),
       body: Column(
         children: [
+          if (featuredPokemon != null)
+            Card(
+              margin: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title: Text('Pokémon Destacado: ${featuredPokemon!.toUpperCase()}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DetailScreen(name: featuredPokemon!),
+                    ),
+                  );
+                },
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
